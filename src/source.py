@@ -55,7 +55,7 @@ def echo_message(message):
         fforward_from=message.forward_from
     bot.send_message(chat_id=message.chat.id,text="Имя: "+fforward_from.first_name+"\nФамилия: "+fforward_from.last_name+"\nID: "+str(fforward_from.id)+"\nUsername: "+fforward_from.username+"\nChat ID: "+str(message.chat.id))
 
-@bot.inline_handler(func=lambda query:"алиас" in query.query)
+@bot.inline_handler(func=lambda query:"я" in query.query)
 def answer_alias_query(inline_query):
     username=inline_query.from_user.username
     fforward_from=inline_query.from_user
@@ -64,7 +64,7 @@ def answer_alias_query(inline_query):
         title='Кто я такой?',
         description='Я такой кто?',
         input_message_content=InputTextMessageContent(
-            message_text="Имя: "+fforward_from.first_name+"\nФамилия: "+fforward_from.last_name+"\nID: "+str(fforward_from.id)+"\nUsername: "+fforward_from.username+"\nChat ID: "+str(message.chat.id)
+            message_text="Имя: "+fforward_from.first_name+"\nФамилия: "+fforward_from.last_name+"\nID: "+str(fforward_from.id)+"\nUsername: "+fforward_from.username
         )
     )
     bot.answer_inline_query(
