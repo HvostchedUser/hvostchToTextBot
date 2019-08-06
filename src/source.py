@@ -70,6 +70,8 @@ def answer_alias_query(inline_query):
     bot.answer_inline_query(
         inline_query_id=inline_query.id,
         results=[alias_artice],
+        switch_pm_text="Кто он?",
+        switch_pm_parameter="",
         cache_time=0
     )
 @server.route('/'+API_TOKEN,methods=['POST'])
