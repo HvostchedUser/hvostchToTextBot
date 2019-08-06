@@ -36,21 +36,6 @@ server=Flask(__name__)
 q=['Ты человек или automata de merde?','Тебе нужны красивые желтые перчатки для работы?','?','Как выглядят те самые люди, которые ботов пишут?','Ты победил. Начнем снова.']
 a=['человек','да','!','как люди, которые ботов пишут']
 
-@server.route('/'+API_TOKEN,methods=['POST'])
-def get_message():
-    json_update=request.stream.read().decode('utf-8')
-    update=telebot.types.Update.de_json(json_update)
-
-    bot.process_new_updates([update])
-
-    return '', 200
-
-
-if __name__=='__main__':
-    bot.remove_webhook()
-    bot.set_webhook(url=os.getenv('WEBHOOK_URL')+API_TOKEN)
-    server.run(host="0.0.0.0",
-               port=int(os.getenv('PORT',8443)))
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -75,4 +60,21 @@ def echo_message(message):
     quest(message.chat.id)
 def quest(chat_id):
     bot.send_message(chat_id,q[get_state(chat_id)])
+
+
+@server.route('/'+API_TOKEN,methods=['POST'])
+def get_message():
+    json_update=request.stream.read().decode('utf-8')
+    update=telebot.types.Update.de_json(json_update)
+
+    bot.process_new_updates([update])
+
+    return '', 200
+
+
+if __name__=='__main__':
+    bot.remove_webhook()
+    bot.set_webhook(url=os.getenv('WEBHOOK_URL')+API_TOKEN)
+    server.run(host="0.0.0.0",
+               port=int(os.getenv('PORT',8443)))
 
