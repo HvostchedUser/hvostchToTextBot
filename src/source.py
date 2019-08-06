@@ -45,7 +45,7 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
-    bot.send_message(chat_id=message.chat.id,text="Имя: "+message.chat.first_name+"\nФамилия: "+message.chat.last_name+"\nID: "+str(message.chat.id)+"\nUsername: "+message.chat.username+"\nChat ID: "+str(message.chat.id))
+    bot.send_message(chat_id=message.chat.id,text="Имя: "+message.forward_from.first_name+"\nФамилия: "+message.forward_from.last_name+"\nID: "+str(message.forward_from.id)+"\nUsername: "+message.forward_from.username+"\nChat ID: "+str(message.chat.id))
 
 
 @server.route('/'+API_TOKEN,methods=['POST'])
