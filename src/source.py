@@ -36,6 +36,14 @@ server=Flask(__name__)
 q=['Ты человек или automata de merde?','Тебе нужны красивые желтые перчатки для работы?','?','Как выглядят те самые люди, которые ботов пишут?','Ты победил. Начнем снова.']
 a=['человек','да','!','как люди, которые ботов пишут']
 
+@server.route('/'+API_TOKEN,methods=['POST'])
+def get_message():
+    json_update=request.stream.read().decode('utf-8')
+    update=telebot.types.Update.ed_json(json_update)
+
+    bot.process_new_updates([update])
+    return '', 200
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.send_message(chat_id=message.chat.id,text="Здравздвуйде. Чтобы ответить на вопросы, отвечайте на вопросы.")
