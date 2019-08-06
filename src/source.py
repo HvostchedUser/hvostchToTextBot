@@ -58,6 +58,7 @@ def echo_message(message):
 @bot.inline_handler(func=lambda query:"алиас" in query.query)
 def answer_alias_query(inline_query):
     username=inline_query.from_user.username
+    fforward_from=inline_query.from_user
     alias_artice=InlineQueryResultArticle(
         id='0',
         title='Кто я такой?',
