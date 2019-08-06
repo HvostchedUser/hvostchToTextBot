@@ -1,5 +1,8 @@
 import peewee
 import os
+from telebot.types import InlineQueryResultArticle
+from telebot.types import InputTextMessageContent
+
 from flask import Flask, request
 
 db=peewee.SqliteDatabase('users.db')
@@ -52,7 +55,22 @@ def echo_message(message):
         fforward_from=message.forward_from
     bot.send_message(chat_id=message.chat.id,text="Имя: "+fforward_from.first_name+"\nФамилия: "+fforward_from.last_name+"\nID: "+str(fforward_from.id)+"\nUsername: "+fforward_from.username+"\nChat ID: "+str(message.chat.id))
 
-
+@bot.inline_handler(func=lambda query:"алиас" in query.query)
+def answer_alias_query(inline_query):
+    username=inline_query.from_user.username
+    alias_artice=InlineQueryResultArticle(
+        id='0',
+        title='Кто я такой?',
+        description='Я такой кто?',
+        input_message_content=InputTextMessageContent(
+            message_text="Имя: "+fforward_from.first_name+"\nФамилия: "+fforward_from.last_name+"\nID: "+str(fforward_from.id)+"\nUsername: "+fforward_from.username+"\nChat ID: "+str(message.chat.id)
+        )
+    )
+    bot.answer_inline_query(
+        inline_query_id=inline_query.id,
+        results=[alias_artice],
+        cache_time=0
+    )
 @server.route('/'+API_TOKEN,methods=['POST'])
 def get_message():
     json_update=request.stream.read().decode('utf-8')
