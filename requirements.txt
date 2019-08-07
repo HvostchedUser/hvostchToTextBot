@@ -1,3 +1,6 @@
 pyTelegramBotAPI==3.6.6
 peewee==3.10.0
 Flask==1.1.1
+SpeechRecognition==3.8.1
+pydub==0.23.1
+

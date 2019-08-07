@@ -1,7 +1,11 @@
 import os
 import telebot
+from pydub import AudioSegment
+import io
+import speech_recognition as sr
+recognizer=sr.Recognizer()
 
-API_TOKEN="788745548:AAHoAmBoSxg0oyMyED-YOg9Hi07ra67cw9A"
+API_TOKEN="927043149:AAGwAaG6TBJnht6SxVWZJEvC0UvzsrZf5Ew"
 bot=telebot.TeleBot(API_TOKEN,skip_pending=True)
 
 
@@ -14,27 +18,15 @@ def send_help(message):
 
 @bot.message_handler(content_types=['voice'])
 def message(message):
+    mesin=bot.reply_to(message,"Слушаю...")
     voice_info=bot.get_file(message.voice.file_id)
     voice_bytes=bot.download_file(voice_info.file_path)
     with open(voice_info.file_path,'wb') as file:
-        file.write(voice_bytes)
-
-@bot.message_handler(content_types=['document'])
-def message(message):
-    voice_info=bot.get_file(message.document.file_id)
-    voice_bytes=bot.download_file(voice_info.file_path)
-    with open(message.document.file_name,'wb') as file:
-        file.write(voice_bytes)
-@bot.message_handler(content_types=['photo'])
-def message(message):
-    phsize=message.photo
-    for ph in phsize:
-        voice_info=bot.get_file(ph.file_id)
-        voice_bytes=bot.download_file(voice_info.file_path)
-        with open(voice_info.file_path,'wb') as file:
-            file.write(voice_bytes)
-
-
-
+        wav = AudioSegment.from_ogg(io.BytesIO(voice_bytes))
+        wav.export("voicewav.wav",format='wav')
+        with sr.AudioFile('voicewav.wav') as source:
+            audio=recognizer.record(source)
+            text=recognizer.recognize_google(audio,language='ru-RU')
+            bot.edit_message_text(text = text,chat_id=mesin.chat.id,message_id=mesin.message_id)
 
 bot.polling()
