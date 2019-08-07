@@ -36,7 +36,8 @@ def message(message):
                 audio=recognizer.record(source)
                 text=recognizer.recognize_google(audio,language='ru-RU')
                 bot.edit_message_text(text = text,chat_id=mesin.chat.id,message_id=mesin.message_id)
-    except:
+    except Exception as e:
+        print(e)
         bot.edit_message_text(text = "По-моему, здесь ничего не сказано.",chat_id=mesin.chat.id,message_id=mesin.message_id)
 
 @server.route('/'+API_TOKEN,methods=['POST'])
