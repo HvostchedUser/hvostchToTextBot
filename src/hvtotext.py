@@ -5,19 +5,13 @@ import io
 import speech_recognition as sr
 
 
-
-
 from flask import Flask, request
-
-server=Flask(__name__)
-
-
 
 
 
 recognizer=sr.Recognizer()
 
-API_TOKEN=os.getenv("")
+API_TOKEN=os.getenv("TG_API_TOKEN")
 bot=telebot.TeleBot(API_TOKEN,skip_pending=True)
 
 
@@ -43,7 +37,6 @@ def message(message):
                 bot.edit_message_text(text = text,chat_id=mesin.chat.id,message_id=mesin.message_id)
     except:
         bot.edit_message_text(text = "По-моему, здесь ничего не сказано.",chat_id=mesin.chat.id,message_id=mesin.message_id)
-
 
 @server.route('/'+API_TOKEN,methods=['POST'])
 def get_message():
