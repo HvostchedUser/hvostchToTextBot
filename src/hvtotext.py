@@ -14,6 +14,7 @@ recognizer=sr.Recognizer()
 API_TOKEN=os.getenv("TG_API_TOKEN")
 bot=telebot.TeleBot(API_TOKEN,skip_pending=True)
 
+server=Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
