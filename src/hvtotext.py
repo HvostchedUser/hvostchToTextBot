@@ -51,6 +51,7 @@ def get_message():
 
 
 if __name__=='__main__':
+    os.makedirs("voice/")
     bot.remove_webhook()
     bot.set_webhook(url=os.getenv('WEBHOOK_URL')+API_TOKEN)
     server.run(host="0.0.0.0",
